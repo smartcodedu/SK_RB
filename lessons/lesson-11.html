@@ -15,33 +15,53 @@
   <div class="container">
 
     <nav class="breadcrumbs">
-      <a href="../index.html">← Все уроки</a>
+      <a href="../index.html">←Все уроки</a>
     </nav>
 
     <header class="hero">
-      <h1>11. Новый мир: ...</h1>
-      <p class="subhead">wwwwwwwwwww</p>
+      <h1>11. Новый мир: Новая локация</h1>
+      <p class="subhead">Добавляем новые фичи, и создаём новую локацию</p>
       <div class="badge-list">
-        <span class="badge">wwwwwwwwwww</span>
-        <span class="badge">wwwwwwwwwww</span>
+        <span class="badge">Скрипты</span>
+        <span class="badge">Эффекты</span>
+        <span class="badge">Ландшафт</span>
       </div>
     </header>
 
+    <!-- ===== МАТЕРИАЛЫ К УРОКУ ===== -->
+    <section class="downloads" id="downloads" aria-label="Материалы к уроку">
+        <h2 class="downloads__title">
+        <span class="downloads__icon">📦</span>
+        Материалы к уроку
+        </h2>
+        <p class="downloads__hint">Файлы моделей, которые можно использовать на уркое</p>
+    
+        <div class="downloads__list">
+            <a class="download-item" href="../files/lesson-10/CampFire.rbxm" download>
+                <span class="download-item__icon">🗂️</span>
+                <div class="download-item__body">
+                <h3 class="download-item__name">CampFire.rbxm</h3>
+                <p class="download-item__meta">Модель Костра · 5 КB</p>
+                </div>
+                <span class="download-item__action">Скачать ↓</span>
+            </a>
+        </div>
+    </section>
 
     <div class="task-grid" id="taskGrid">
 
-        <!-- ЗАДАНИЕ 1 Смена дня и ночи-->
+        <!-- ЗАДАНИЕ 3. Авто-подсказка -->
         <article class="task-card">
             <div class="task-header">
             <h2>
-                <span class="task-number">1</span>
-                wwwwwwwwwww
+                <span class="task-number">3</span>
+                Настройка авто подсказки
             </h2>
-            <p class="task-desc">wwwwwwwwwww <b>wwwwwwwwwww</b> wwwwwwwwwww</p>
+            <p class="task-desc">Проверь, что скрипт <b>Hint</b> находится в объекте, табличка</p>
             </div>
             <div class="code-block-wrapper">
             <div class="code-label">
-                <span>📄 Скопируй в Script (wwwwwwwwwww)</span>
+                <span>📄 Скопируй в файл <b>Hint</b></span>
             </div>
             <pre><code>
 local sign = script.Parent
@@ -74,94 +94,74 @@ end
         </article>
 
 
-        <!-- ЗАДАНИЕ 3 Работа фонарного столба-->
+        <!-- ЗАДАНИЕ 4. Урон огнём-->
         <article class="task-card">
             <div class="task-header">
             <h2>
-                <span class="task-number">2</span>
-                Работа фонарного столба по ночам
+                <span class="task-number">4</span>
+                Урон огнём
             </h2>
-            <p class="task-desc">Внимательно проверь чтобы скрипт был внутри объекта с освещением</p>
+            <p class="task-desc">В этот раз скрипт должен быть внутри модели костра, проверь</p>
             </div>
             <div class="code-block-wrapper">
             <div class="code-label">
-                <span>📄 Скопируй в Script (Lamp)</span>
+                <span>📄 Скопируй в файл <b>Fire_Dmg</b></span>
             </div>
             <pre><code>
-    local SpotLight = script.Parent.SpotLight
+local model = script.Parent
+local DAMAGE = 15
+local COOLDOWN = 1
 
-    while true do
-        local time = game.Lighting.ClockTime
-        if time >= 18 or time < 6 then
-            SpotLight.Enabled = true
-        else
-            SpotLight.Enabled = false
-        end
-        wait()
+local lastHit = {}
+
+for _, part in model:GetDescendants() do
+    if part:IsA("BasePart") then
+        part.Touched:Connect(function(hit)
+            local humanoid = hit.Parent:FindFirstChildOfClass("Humanoid")
+            if not humanoid then return end
+            local now = tick()
+            if lastHit[humanoid] and now - lastHit[humanoid] < COOLDOWN then return end
+            lastHit[humanoid] = now
+            humanoid:TakeDamage(DAMAGE)
+        end)
     end
+end                
             </code></pre>
             </div>
         </article>
 
-        <!-- ЗАДАНИЕ 4 Мигание факелов-->
+        <!-- ЗАДАНИЕ 5 доп задачи-->
         <article class="task-card">
             <div class="task-header">
                 <h2>
-                <span class="task-number">4</span>
-                Автоматическое мигание факелов
+                <span class="task-number">⭐</span>
+                Дополнительная задача для факела
                 </h2>
-                <p class="task-desc">Скрипт добавь к объекту с эффектом огня.</p>
+                <p class="task-desc">Внимательно сравни свой и этот скрипт. Добавь несколько строк в свой(или удали свой и скопируй этот скрпт)</p>
             </div>
             <div class="code-block-wrapper">
                 <div class="code-label">
-                <span>📄 Скопируй в Script (Fire)</span>
+                <span>📄 Внеси изменения в файле Fires</span>
                 </div>
                 <pre><code id="code3">
-    while true do
-        script.Parent.Fire.Enabled=false
-        wait(2)
-        script.Parent.Fire.Enabled=true
-        wait(2)
-    end  
+while true do
+    script.Parent.Fire.Enabled=false
+    script.Parent.PointLight.Enabled=false
+    wait(3)
+    script.Parent.Fire.Enabled=true
+    script.Parent.PointLight.Enabled=true
+    wait(2)
+end
                 </code></pre>
             </div>
             </article>
 
-        <!-- ЗАДАНИЕ 5 Включение освещения в доме-->
-        <article class="task-card">
-            <div class="task-header">
-            <h2>
-                <span class="task-number">5</span>
-                Включение освещения в доме, когда мы внутри
-            </h2>
-            <p class="task-desc">Внимательно с объектами освещения и платформы, их именами и положением</p>
-            </div>
-            <div class="code-block-wrapper">
-            <div class="code-label">
-                <span>📄 Скопируй в Script (HomeLight)</span>
-            </div>
-            <pre><code>
-    function onTouch(who)
-        game.Workspace.House.Part1.SpotLight.Enabled=true	
-    end
-    
-    function onTouchEnded(who)
-        game.Workspace.House.Part1.SpotLight.Enabled=false	
-    end
-
-    game.Workspace.House.Platform_1.Touched:Connect(onTouch)
-    game.Workspace.House.Platform_1.TouchEnded:Connect(onTouchEnded)
-            </code></pre>
-            </div>
-        </article>
 
     </div>
-
     <footer class="footer-nav">
       <a href="../index.html">← Все уроки</a>
       <a href="lesson-12.html">Урок 12 →</a>
     </footer>
-
   </div>
 </body>
 
