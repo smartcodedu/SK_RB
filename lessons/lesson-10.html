@@ -7,8 +7,10 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
+  
   <link rel="stylesheet" href="../css/style.css">
   <link rel="icon" type="image/png" href="../logo-circle-tg.png">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/styles/github-dark.min.css">
 </head>
 <body>
   <div class="container">
@@ -89,7 +91,7 @@
             <div class="code-label">
                 <span>📄 Скопируй в Script (DayTime)</span>
             </div>
-            <pre><code id="code1">
+            <pre><code class="language-luau">
     Time = 0
     while true do
         game.Lighting.ClockTime = Time
@@ -127,7 +129,7 @@
             <div class="code-label">
                 <span>📄 Скопируй в Script (Lamp)</span>
             </div>
-            <pre><code id="code3">
+            <pre><code>
     local SpotLight = script.Parent.SpotLight
 
     while true do
@@ -156,7 +158,7 @@
                 <div class="code-label">
                 <span>📄 Скопируй в Script (Fire)</span>
                 </div>
-                <pre><code id="code3">
+                <pre><code>
     while true do
         script.Parent.Fire.Enabled=false
         wait(2)
@@ -180,7 +182,7 @@
             <div class="code-label">
                 <span>📄 Скопируй в Script (HomeLight)</span>
             </div>
-            <pre><code id="code2">
+            <pre><code>
     function onTouch(who)
         game.Workspace.House.Part1.SpotLight.Enabled=true	
     end
@@ -199,10 +201,20 @@
 
     <footer class="footer-nav">
       <a href="../index.html">← Все уроки</a>
-      <a href="lesson-1.html">Урок 11 →</a>
+      <a href="lesson-11.html">Урок 11 →</a>
     </footer>
 
   </div>
-  <script src="../js/copy.js" defer></script>
 </body>
+<script src="../js/highlight.min.js"></script>
+<script src="../js/luau.min.js"></script>
+<script>
+  // Если после скачивания переменная всё ещё undefined, проверь файл luau.min.js
+  if (typeof hljsDefineLuau !== 'undefined') {
+    hljs.registerLanguage('luau', hljsDefineLuau);
+  } else {
+    console.error('luau.min.js не загрузился или это не JS-файл');
+  }
+  hljs.highlightAll();
+</script>
 </html>
