@@ -9,6 +9,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="../css/style.css">
   <link rel="icon" type="image/png" href="../logo-circle-tg.png">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/styles/github-dark.min.css">
 </head>
 <body>
   <div class="container">
@@ -42,7 +43,7 @@
             <div class="code-label">
                 <span>📄 Скопируй в Script (wwwwwwwwwww)</span>
             </div>
-            <pre><code id="code1">
+            <pre><code>
 local sign = script.Parent
 local emergence_distance = 25
 local originalText = ""
@@ -86,7 +87,7 @@ end
             <div class="code-label">
                 <span>📄 Скопируй в Script (Lamp)</span>
             </div>
-            <pre><code id="code3">
+            <pre><code>
     local SpotLight = script.Parent.SpotLight
 
     while true do
@@ -139,7 +140,7 @@ end
             <div class="code-label">
                 <span>📄 Скопируй в Script (HomeLight)</span>
             </div>
-            <pre><code id="code2">
+            <pre><code>
     function onTouch(who)
         game.Workspace.House.Part1.SpotLight.Enabled=true	
     end
@@ -158,10 +159,21 @@ end
 
     <footer class="footer-nav">
       <a href="../index.html">← Все уроки</a>
-      <a href="lesson-02.html">Урок 11 →</a>
+      <a href="lesson-12.html">Урок 12 →</a>
     </footer>
 
   </div>
-  <script src="../js/copy.js" defer></script>
 </body>
+
+<script src="../js/highlight.min.js"></script>
+<script src="../js/luau.min.js"></script>
+<script>
+  // Если после скачивания переменная всё ещё undefined, проверь файл luau.min.js
+  if (typeof hljsDefineLuau !== 'undefined') {
+    hljs.registerLanguage('luau', hljsDefineLuau);
+  } else {
+    console.error('luau.min.js не загрузился или это не JS-файл');
+  }
+  hljs.highlightAll();
+</script>
 </html>
