@@ -22,6 +22,7 @@
   /* Принудительный задний фон для кода */
   pre code.hljs {
     background: rgb(44, 60, 74) !important;
+    font-size: 17px;
   }
 
   /* ===== ОБЩИЕ КОМПОНЕНТЫ ===== */
@@ -399,10 +400,9 @@
   }
   
   .code-label span {
-    font-size: 0.85rem;
-    letter-spacing: 0.03em;
+    font-size: 0.9rem;
     font-weight: 600;
-    color: #64748b;
+    color: #505c6d;
   }
   
   .copy-button {
