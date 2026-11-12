@@ -105,80 +105,254 @@ end
             </div>
         </article>
 
-        <!-- ЗАДАНИЕ 4. Урон огнём-->
+        <!-- ЗАДАНИЕ 2. Сбор объектов-->
         <article class="task-card">
             <div class="task-header">
             <h2>
-                <span class="task-number">4</span>
-                Урон огнём
+                <span class="task-number">2</span>
+                Сбор объектов
             </h2>
-            <p class="task-desc">В этот раз скрипт должен быть внутри модели костра, проверь</p>
+            <p class="task-desc">Внимательно следи за названием папки в <b>Workspace</b>, 
+                                    и за деталью <b>Barrier</b></p>
             </div>
             <div class="code-block-wrapper">
             <div class="code-label">
-                <span>📄 Скопируй в файл <b>Fire_Dmg</b></span>
+                <span>📄 Скопируй в файл <b>Collecting</b></span>
             </div>
             <pre><code>
-local model = script.Parent
-local DAMAGE = 15
-local COOLDOWN = 1
+local collection = workspace:WaitForChild("Collection")
+local barrier = workspace:WaitForChild("Barrier")
 
-local lastHit = {}
+local total = #collection:GetChildren()
+local collected = 0
 
-for _, part in model:GetDescendants() do
-    if part:IsA("BasePart") then
-        part.Touched:Connect(function(hit)
-            local humanoid = hit.Parent:FindFirstChildOfClass("Humanoid")
-            if not humanoid then return end
-            local now = tick()
-            if lastHit[humanoid] and now - lastHit[humanoid] < COOLDOWN then return end
-            lastHit[humanoid] = now
-            humanoid:TakeDamage(DAMAGE)
-        end)
+for _, object in collection:GetChildren() do
+    for _, part in object:GetDescendants() do
+        if part:IsA("BasePart") then
+            part.Touched:Connect(function(hit)
+                if not object.Parent then return end
+                if hit.Parent:FindFirstChildOfClass("Humanoid") then
+                    object:Destroy()
+                    collected = collected + 1
+                    if collected >= total then
+                        barrier:Destroy()
+                    end
+                end
+            end)
+        end
     end
-end                
+end              
             </code></pre>
             </div>
         </article>
 
-        <!-- ЗАДАНИЕ 5 доп задачи-->
+        <!-- ЗАДАНИЕ 3 доп задача Подсветка ключа-->
         <article class="task-card">
             <div class="task-header">
                 <h2>
                 <span class="task-number">⭐</span>
-                Дополнительная задача для факела
+                    Подсветка ключа
                 </h2>
                 <p class="task-desc">Внимательно сравни свой и этот скрипт. Добавь несколько строк в свой(или удали свой и скопируй этот скрпт)</p>
             </div>
             <div class="code-block-wrapper">
                 <div class="code-label">
-                <span>📄 Внеси изменения в скрипте Fires факелов</span>
+                <span>📄 Внеси изменения в скрипте для подсказки <b>Hint</b> </span>
                 </div>
                 <pre><code id="code3">
-while true do
-    script.Parent.Fire.Enabled=false
-    script.Parent.PointLight.Enabled=false
-    wait(3)
-    script.Parent.Fire.Enabled=true
-    script.Parent.PointLight.Enabled=true
-    wait(2)
+local sign = script.Parent
+local originalText = ""
+local emergence_distance = 25
+local newText = "Ты на верном пути"
+
+local function checkPlayerDistance()
+    local players = game.Players:GetPlayers()
+    for _, player in ipairs(players) do
+        local character = player.Character
+        if not character then continue end
+        local hrp = character:FindFirstChild("HumanoidRootPart")
+        if not hrp then continue end
+        local distance = (hrp.Position - sign.Position).Magnitude
+        if distance <= emergence_distance then
+            sign.SurfaceGui.TextLabel.Text = newText
+            workspace.Key.Highlight.Enabled = true
+        else
+            sign.SurfaceGui.TextLabel.Text = originalText
+        end
+    end
 end
+
+while true do
+    checkPlayerDistance()
+    wait(0.1)
+end       
                 </code></pre>
             </div>
             </article>
 
+        <!-- ЗАДАНИЕ 4 доп задача Двойной прыжок-->
+        <article class="task-card" data-locked data-password="11">
+            <div class="task-header">
+                <h2>
+                    <span class="task-number_width">🔒⭐</span>
+                    Двойной прыжок
+                </h2>
+                <p class="task-desc">Материал закрыт! Введи пароль, который подсказал преподаватель. </p>
+            </div>
+            <div class="code-block-wrapper">
+                <div class="locked_block_overlay">
+                    <form class="locked-block__form" id="passwordForm">
+                        <input
+                            type="password"
+                            class="locked-block__input"
+                            id="passwordInput"
+                            placeholder="Введи пароль"
+                            autocomplete="off"
+                        >
+                        <button type="submit" class="locked-block__button">Открыть</button>
+                        </form>
+                    <p class="locked-block__error" id="passwordError" hidden>Неверный пароль. Попробуй ещё.</p>
+                </div>
+                <div class="locked-block__content" id="lockedContent" hidden>
+                    <div class="code-label">
+                    <span>
+                        Внимательно! Добавь <b>LocalScript</b> в папку <b>StarterCharacterScripts</b>
+                        <br>📄 Скопируй в файл <b>DoubleJump</b> </span>
+                    </div>
+                    <pre><code>
+local UIS = game:GetService("UserInputService")
+local player = game.Players.LocalPlayer
+local char = player.Character or player.CharacterAdded:Wait()
+local humanoid = char:WaitForChild("Humanoid")
+
+local jumps = 0
+local maxJumps = 2
+local canDoubleJump = false
+
+humanoid.StateChanged:Connect(function(_, new)
+    if new == Enum.HumanoidStateType.Landed then
+        jumps = 0
+        canDoubleJump = false
+    elseif new == Enum.HumanoidStateType.Jumping then
+        canDoubleJump = true
+    end
+end)
+
+UIS.InputBegan:Connect(function(input, processed)
+    if processed then return end
+    if input.KeyCode == Enum.KeyCode.Space and canDoubleJump and jumps < maxJumps then
+        jumps += 1
+        canDoubleJump = false
+        humanoid:ChangeState(Enum.HumanoidStateType.Jumping)
+    end
+end)
+                    </code></pre>
+                </div>
+            </div>
+        </article>
+
+        <!-- ЗАДАНИЕ 5 доп задача Ускорение-->
+        <article class="task-card" data-locked data-password="22">
+            <div class="task-header">
+                <h2>
+                    <span class="task-number_width">🔒⭐</span>
+                    Ускорение при нажатии Shift
+                </h2>
+                <p class="task-desc">Материал закрыт! Введи пароль, который подсказал преподаватель. </p>
+            </div>
+            <div class="code-block-wrapper">
+                <div class="locked_block_overlay">
+                    <form class="locked-block__form" id="passwordForm">
+                        <input
+                            type="password"
+                            class="locked-block__input"
+                            id="passwordInput"
+                            placeholder="Введи пароль"
+                            autocomplete="off"
+                        >
+                        <button type="submit" class="locked-block__button">Открыть</button>
+                        </form>
+                    <p class="locked-block__error" id="passwordError" hidden>Неверный пароль. Попробуй ещё.</p>
+                </div>
+                <div class="locked-block__content" id="lockedContent" hidden>
+                    <div class="code-label">
+                    <span>
+                        Внимательно! Добавь <b>LocalScript</b> в папку <b>StarterCharacterScripts</b>
+                        <br>📄 Скопируй в файл <b>Sprint</b> </span>
+                    </div>
+                    <pre><code>
+local UIS = game:GetService("UserInputService")
+local player = game.Players.LocalPlayer
+local char = player.Character or player.CharacterAdded:Wait()
+local humanoid = char:WaitForChild("Humanoid")
+
+local normalSpeed = 16
+local sprintSpeed = 32
+
+UIS.InputBegan:Connect(function(input, processed)
+    if processed then return end
+    if input.KeyCode == Enum.KeyCode.LeftShift then
+        humanoid.WalkSpeed = sprintSpeed
+    end
+end)
+
+UIS.InputEnded:Connect(function(input, processed)
+    if processed then return end
+    if input.KeyCode == Enum.KeyCode.LeftShift then
+        humanoid.WalkSpeed = normalSpeed
+    end
+end)
+                    </code></pre>
+                </div>
+            </div>
+        </article>
     </div>
-    <footer class="footer-nav">
-      <a href="../index.html">← Все уроки</a>
-      <a href="lesson-12.html">Урок 12 →</a>
-    </footer>
+
+        <footer class="footer-nav">
+            <a href="../index.html">← Все уроки</a>
+            <a href="../index.html">Урок 13 →</a>
+          </footer>
   </div>
 </body>
+<!-- Проверка на пароль -->
+<script>
+    (function () {
+      const SHARED_PASSWORD = 'СК';
+  
+      const blocks = document.querySelectorAll('[data-locked]');
+    //   console.log('Найдено закрытых блоков:', blocks.length); 
+  
+      blocks.forEach(function (block, index) {
+        const form    = block.querySelector('.locked-block__form');
+        const input   = block.querySelector('.locked-block__input');
+        const error   = block.querySelector('.locked-block__error');
+        const content = block.querySelector('.locked-block__content');
+        const overlay = block.querySelector('.locked_block_overlay');
+  
+        const expected = block.dataset.password || SHARED_PASSWORD;
+  
+        form.addEventListener('submit', function (e) {
+          e.preventDefault();
+  
+          if (input.value.trim() === expected) {
+            content.hidden = false;
+            overlay.hidden = true;
+            error.hidden   = true;
+            input.value    = '';
+          } else {
+            error.hidden = false;
+            input.value  = '';
+            input.focus();
+          }
+        });
+      });
+    })();
+  </script>
 
+<!-- Оформление языка -->
 <script src="../js/highlight.min.js"></script>
 <script src="../js/luau.min.js"></script>
 <script>
-  // Если после скачивания переменная всё ещё undefined, проверь файл luau.min.js
   if (typeof hljsDefineLuau !== 'undefined') {
     hljs.registerLanguage('luau', hljsDefineLuau);
   } else {
@@ -186,4 +360,6 @@ end
   }
   hljs.highlightAll();
 </script>
+
+
 </html>
