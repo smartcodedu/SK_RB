@@ -63,6 +63,7 @@
                 </div>
                 <span class="download-item__action">Скачать ↓</span>
             </a>
+
         </div>
     </section>
 
@@ -201,7 +202,7 @@ end
             </div>
             <div class="code-block-wrapper">
                 <div class="locked_block_overlay">
-                    <form class="locked-block__form" id="passwordForm">
+                    <form class="locked-block__form">
                         <input
                             type="password"
                             class="locked-block__input"
@@ -211,9 +212,9 @@ end
                         >
                         <button type="submit" class="locked-block__button">Открыть</button>
                         </form>
-                    <p class="locked-block__error" id="passwordError" hidden>Неверный пароль. Попробуй ещё.</p>
+                    <p class="locked-block__error"  hidden>Неверный пароль. Попробуй ещё.</p>
                 </div>
-                <div class="locked-block__content" id="lockedContent" hidden>
+                <div class="locked-block__content"  hidden>
                     <div class="code-label">
                     <span>
                         Внимательно! Добавь <b>LocalScript</b> в папку <b>StarterCharacterScripts</b>
@@ -252,7 +253,7 @@ end)
         </article>
 
         <!-- ЗАДАНИЕ 5 доп задача Ускорение-->
-        <article class="task-card" data-locked data-password="22">
+        <article class="task-card" data-locked data-password="55">
             <div class="task-header">
                 <h2>
                     <span class="task-number_width">🔒⭐</span>
@@ -262,7 +263,7 @@ end)
             </div>
             <div class="code-block-wrapper">
                 <div class="locked_block_overlay">
-                    <form class="locked-block__form" id="passwordForm">
+                    <form class="locked-block__form">
                         <input
                             type="password"
                             class="locked-block__input"
@@ -272,9 +273,9 @@ end)
                         >
                         <button type="submit" class="locked-block__button">Открыть</button>
                         </form>
-                    <p class="locked-block__error" id="passwordError" hidden>Неверный пароль. Попробуй ещё.</p>
+                    <p class="locked-block__error"  hidden>Неверный пароль. Попробуй ещё.</p>
                 </div>
-                <div class="locked-block__content" id="lockedContent" hidden>
+                <div class="locked-block__content"  hidden>
                     <div class="code-label">
                     <span>
                         Внимательно! Добавь <b>LocalScript</b> в папку <b>StarterCharacterScripts</b>
@@ -314,13 +315,12 @@ end)
           </footer>
   </div>
 </body>
-<!-- Проверка на пароль -->
+
 <script>
     (function () {
       const SHARED_PASSWORD = 'СК';
   
       const blocks = document.querySelectorAll('[data-locked]');
-    //   console.log('Найдено закрытых блоков:', blocks.length); 
   
       blocks.forEach(function (block, index) {
         const form    = block.querySelector('.locked-block__form');
@@ -349,7 +349,7 @@ end)
     })();
   </script>
 
-<!-- Оформление языка -->
+
 <script src="../js/highlight.min.js"></script>
 <script src="../js/luau.min.js"></script>
 <script>
