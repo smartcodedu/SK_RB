@@ -192,13 +192,13 @@ end
             </article>
 
         <!-- ЗАДАНИЕ 4 доп задача Двойной прыжок-->
-        <article class="task-card" data-locked data-password="11">
+        <article class="task-card" data-locked data-password="пробел">
             <div class="task-header">
                 <h2>
                     <span class="task-number_width">🔒⭐</span>
-                    Двойной прыжок
+                    Двойной прыжок                   
                 </h2>
-                <p class="task-desc">Материал закрыт! Введи пароль, который подсказал преподаватель. </p>
+                <p class="task-desc">Материал закрыт!<br>Введи пароль - ответ, на вопрос, который указан в строке с полем ответа </p>
             </div>
             <div class="code-block-wrapper">
                 <div class="locked_block_overlay">
@@ -207,7 +207,7 @@ end
                             type="password"
                             class="locked-block__input"
                             id="passwordInput"
-                            placeholder="Введи пароль"
+                            placeholder="Какую клавишу мы нажимает для прыжка?"
                             autocomplete="off"
                         >
                         <button type="submit" class="locked-block__button">Открыть</button>
@@ -253,13 +253,13 @@ end)
         </article>
 
         <!-- ЗАДАНИЕ 5 доп задача Ускорение-->
-        <article class="task-card" data-locked data-password="55">
+        <article class="task-card" data-locked data-password="деталь">
             <div class="task-header">
                 <h2>
                     <span class="task-number_width">🔒⭐</span>
                     Ускорение при нажатии Shift
                 </h2>
-                <p class="task-desc">Материал закрыт! Введи пароль, который подсказал преподаватель. </p>
+                <p class="task-desc">Материал закрыт!<br>Введи пароль - ответ, на вопрос, который указан в строке с полем ответа </p>
             </div>
             <div class="code-block-wrapper">
                 <div class="locked_block_overlay">
@@ -268,7 +268,7 @@ end)
                             type="password"
                             class="locked-block__input"
                             id="passwordInput"
-                            placeholder="Введи пароль"
+                            placeholder="Самая маленькя строительная единица в Roblox?"
                             autocomplete="off"
                         >
                         <button type="submit" class="locked-block__button">Открыть</button>
@@ -334,7 +334,7 @@ end)
         form.addEventListener('submit', function (e) {
           e.preventDefault();
   
-          if (input.value.trim() === expected) {
+          if (input.value.trim().toLowerCase() === expected) {
             content.hidden = false;
             overlay.hidden = true;
             error.hidden   = true;
